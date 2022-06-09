@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="drawings.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.33540615"
+     inkscape:cx="-1122.5197"
+     inkscape:cy="-234.04461"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showborder="false" />
+  <defs
+     id="defs2">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3122">
+      <circle
+         style="fill:#4f5500;fill-opacity:0.342495;stroke-width:1.39492"
+         id="circle3124"
+         cx="321.84863"
+         cy="140.41435"
+         r="340.78088" />
+    </clipPath>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -223.82969,-86.798536 h 42.9504 v 42.9504 h -42.9504 z"
+       id="path16551"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -180.87929,-86.798536 h 42.9504 v 42.9504 h -42.9504 z"
+       id="path16553"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -137.92889,-86.798536 h 42.9504 v 42.9504 h -42.9504 z"
+       id="path16555"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -223.82969,-43.848136 h 42.9504 v 42.95040008 h -42.9504 z"
+       id="path16557"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -180.87929,-43.848136 h 42.9504 v 42.95040008 h -42.9504 z"
+       id="path16559"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -137.92889,-43.848136 h 42.9504 v 42.95040008 h -42.9504 z"
+       id="path16561"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -223.82969,-0.89773592 h 42.9504 V 42.052664 h -42.9504 z"
+       id="path16563"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -180.87929,-0.89773592 h 42.9504 V 42.052664 h -42.9504 z"
+       id="path16565"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#5b8b2e;fill-opacity:1;stroke-width:2;-inkscape-stroke:none"
+       d="m -137.92889,-0.89773592 h 42.9504 V 42.052664 h -42.9504 z"
+       id="path16567"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       id="path3418"
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 194.24951,139.43466 v 30.15578 h 6.39651 v 6.39703 h 30.1563 v -6.39703 -23.75824 h -6.39754 v -6.39754 h -23.75824 z" />
+    <path
+       id="path3513"
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:6.33388;-inkscape-stroke:none"
+       d="M 577.42969 574.11719 L 463.45312 574.11719 L 463.45312 688.0918 L 577.42969 688.0918 L 577.42969 574.11719 z "
+       transform="scale(0.26458333)" />
+    <path
+       id="path3511"
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:6.33388;-inkscape-stroke:none"
+       d="M 463.45312 549.9375 L 463.45312 574.11719 L 577.42969 574.11719 L 577.42969 549.9375 L 463.45312 549.9375 z "
+       transform="scale(0.26458333)" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:0.42418;stroke-width:2;-inkscape-stroke:none"
+       d="m 50.356345,126.76936 h 42.950399 v 42.9504 H 50.356345 Z"
+       id="path2185" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:0.42418033;stroke-width:2;-inkscape-stroke:none"
+       d="M 7.4059458,126.76936 H 50.356345 v 42.9504 H 7.4059458 Z"
+       id="rect938" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 7.405944,133.1666 h 42.9504 v 30.15592 h -42.9504 z"
+       id="path2127"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 50.356344,133.1666 h 42.9504 v 30.15592 h -42.9504 z"
+       id="path2145"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 86.909504,126.76936 v 42.9504 h -30.15592 v -42.9504 z"
+       id="path2147"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 37.961595,189.92702 21.323457,21.32346 c 4.713019,-4.47793 9.091882,0 9.047062,0 l 21.323455,-21.32346"
+       id="path2404"
+       sodipodi:nodetypes="cccc" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 86.909504,126.76936 v 42.9504 h -30.15592 v -42.9504 z"
+       id="path3414"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="M 152.77803,75.691672 V 118.64207 H 122.62211 V 75.691672 Z"
+       id="path3503"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 116.22487,82.088912 h 42.9504 v 30.155918 h -42.9504 z"
+       id="path3505"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="M 152.77803,18.500438 V 61.450836 H 122.62211 V 18.500438 Z"
+       id="path3507"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 116.22487,24.897678 h 42.9504 v 30.155918 h -42.9504 z"
+       id="path3509"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       id="path5675"
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 194.24951,92.300782 v 30.155778 h 6.39651 v 6.39703 h 30.1563 v -6.39703 -23.758238 h -6.39754 v -6.39754 h -23.75824 z" />
+    <path
+       style="color:#000000;fill:#222222;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m 7.405944,133.1666 h 42.9504 v 30.15592 h -42.9504 z"
+       id="path7065"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\path_straight.png"
+       inkscape:export-xdpi="84.228882"
+       inkscape:export-ydpi="84.228882" />
+    <path
+       style="color:#000000;fill:#784f35;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m -180.87929,-80.401296 h 42.9504 v 30.15592 h -42.9504 z"
+       id="path7232"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       style="color:#000000;fill:#784f35;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m -101.37572,-43.848136 v 42.95040008 h -30.15593 V -43.848136 Z"
+       id="path7240"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <circle
+       style="fill:#784f35;fill-opacity:1;stroke:#000000;stroke-width:0.0649999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path8788"
+       cx="-191.30936"
+       cy="99.437294"
+       r="6.4744844" />
+    <path
+       id="path9013"
+       style="color:#000000;fill:#784f35;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m -137.92889,-80.401157 v 30.155781 c 0,0 6.15568,-0.09138 6.39651,6.397025 h 30.1563 v -6.397025 -23.758239 c 0,0 0.47466,-5.825738 -6.39754,-6.397542 h -23.75824 z"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       id="path12999"
+       style="color:#000000;fill:#784f35;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="M -137.92853,35.655076 V 5.4992937 c 0,0 6.15568,0.0914 6.39651,-6.39702962 h 30.1563 V 5.4992937 29.257536 c 0,0 0.47465,5.82574 -6.39754,6.39754 h -23.75825 z"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       id="path13083"
+       style="color:#000000;fill:#784f35;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="m -180.87929,-80.401158 v 30.155782 c 0,0 -6.15568,-0.0914 -6.39651,6.39703 h -30.1563 v -6.39703 -23.758242 c 0,0 -0.47465,-5.82574 6.39754,-6.39754 h 23.75824 z"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+    <path
+       id="path13085"
+       style="color:#000000;fill:#784f35;fill-opacity:1;stroke-width:1.67584;-inkscape-stroke:none"
+       d="M -180.87962,35.655076 V 5.4992937 c 0,0 -6.15568,0.0914 -6.39651,-6.39702962 h -30.1563 V 5.4992937 29.257536 c 0,0 -0.47466,5.82574 6.39754,6.39754 h 23.75824 z"
+       inkscape:export-filename="C:\Users\cagat\projects\TowerDefenseGame\Assets\Visuals\Sprites\ground.png"
+       inkscape:export-xdpi="59.137985"
+       inkscape:export-ydpi="59.137985" />
+  </g>
+</svg>
