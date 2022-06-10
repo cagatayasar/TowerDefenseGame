@@ -1,7 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityAction = UnityEngine.Events.UnityAction;
 
 public class Game : MonoBehaviour
 {
@@ -11,30 +16,108 @@ public class Game : MonoBehaviour
     public Transform monstersParent;
     public Transform projectilesParent;
     public Button placeTowerButton;
+    public Button saveButton;
+    public Button loadSaveButton;
+    public Button deleteSaveButton;
     public Tower towerPrefab;
     public Monster monsterPrefab;
 
+    List<Monster> monsters = new List<Monster>();
+    List<Tower> towers = new List<Tower>();
     float monsterSpawnTimer = 0f;
+    float totalTimePassed = 0f;
     int gold = 0;
+
+    public void RemoveMonster(Monster monster)
+    {
+        monsters.Remove(monster);
+    }
 
     void PlaceTower()
     {
-        var count = Map.instance.availableTowerPoints.Count;
+        var count = Map.instance.towerPoints.Count;
         if (count == 0)
             return;
 
-        var point = Map.instance.availableTowerPoints[Random.Range(0, count)];
+        var availablePointIndexes = Map.instance.towerPointAvailability
+            .Select((boolValue, i) => (boolValue, i)).Where(x => x.boolValue).Select(x => x.i).ToList();
+        if (availablePointIndexes.Count == 0)
+            return;
+        
+        var index = availablePointIndexes[Random.Range(0, availablePointIndexes.Count)];
+        var point = Map.instance.towerPoints[index];
         var tower = Instantiate(towerPrefab, point.transform.position, Quaternion.identity, towersParent);
+        tower.Initialize(index, Random.Range(10, 51));
+        towers.Add(tower);
 
-        Map.instance.availableTowerPoints.Remove(point);
+        Map.instance.towerPointAvailability[index] = false;
+    }
+
+    void InitializeWithState(GameState gameState)
+    {
+        if (gameState == null)
+            return;
+
+        foreach (var sm in gameState.serializedMonsters) {
+            var monster = Instantiate(monsterPrefab, Vector3.zero, Quaternion.identity, monstersParent);
+            monster.Initialize(sm.health, sm.pathPointIndex, sm.travelledDistance);
+            monsters.Add(monster);
+        }
+        foreach (var st in gameState.serializedTowers) {
+            var point = Map.instance.towerPoints[st.towerPointIndex];
+            var tower = Instantiate(towerPrefab, point.transform.position, Quaternion.identity, towersParent);
+            tower.Initialize(st.towerPointIndex, st.damage, st.attackTimer);
+            towers.Add(tower);
+            Map.instance.towerPointAvailability[st.towerPointIndex] = false;
+        }
+        totalTimePassed = gameState.totalTimePassed;
+        gold = gameState.gold;
+    }
+
+    void SaveGame()
+    {
+        var gameState = new GameState(monsters, towers, totalTimePassed, gold);
+        var bf = new BinaryFormatter();
+        var path = Application.persistentDataPath + "/ManualSave.dat";
+        var stream = new FileStream(path, FileMode.Create);
+
+        bf.Serialize(stream, gameState);
+        stream.Close();
+    }
+
+    GameState LoadSave()
+    {
+        var path = Application.persistentDataPath + "/ManualSave.dat";
+        if (File.Exists(path)) {
+            var bf = new BinaryFormatter();
+            var stream = new FileStream(path, FileMode.Open);
+
+            var loadedGameState = bf.Deserialize(stream) as GameState;
+            stream.Close();
+            return loadedGameState;
+        }
+
+        Debug.Log("Save file not found in " + path);
+        return null;
+    }
+
+    void DeleteSave()
+    {
+        var path = Application.persistentDataPath + "/ManualSave.dat";
+        if (File.Exists(path)) {
+            File.Delete(path);
+        }
     }
 
     void Update()
     {
         monsterSpawnTimer += Time.deltaTime;
-        if (monsterSpawnTimer > 1f / (1f + Time.time * 0.1f)) {
+        totalTimePassed += Time.deltaTime;
+        if (monsterSpawnTimer > 1f / (1f + totalTimePassed * 0.1f)) {
             monsterSpawnTimer = 0f;
-            Instantiate(monsterPrefab, Map.instance.pathPoints[0].position, Quaternion.identity, monstersParent);
+            var monster = Instantiate(monsterPrefab, Map.instance.pathPoints[0].position, Quaternion.identity, monstersParent);
+            monster.Initialize();
+            monsters.Add(monster);
         }
 
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.UpArrow)) {
@@ -71,6 +154,13 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+        UnityAction loadAndInitialize = () => InitializeWithState(LoadSave());
+
         placeTowerButton.onClick.AddListener(PlaceTower);
+        saveButton.onClick.AddListener(SaveGame);
+        loadSaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        deleteSaveButton.onClick.AddListener(DeleteSave);
+
+        loadAndInitialize();
     }
 }

@@ -11,7 +11,8 @@ public class Map : MonoBehaviour
     public Tilemap pathTilemap;
     public Tilemap towerTilemap;
     public Transform[] pathPoints;
-    public List<Transform> availableTowerPoints;
+    public List<Transform> towerPoints;
+    public List<bool> towerPointAvailability;
 
     void OnDrawGizmosSelected()
     {
@@ -46,9 +47,11 @@ public class Map : MonoBehaviour
             pathPoints[i] = pathTilemap.transform.GetChild(i);
         }
 
-        availableTowerPoints = new List<Transform>(towerTilemap.transform.childCount);
+        towerPoints = new List<Transform>(towerTilemap.transform.childCount);
+        towerPointAvailability = new List<bool>(towerTilemap.transform.childCount);
         for (int i = 0; i < towerTilemap.transform.childCount; i++) {
-            availableTowerPoints.Add(towerTilemap.transform.GetChild(i));
+            towerPoints.Add(towerTilemap.transform.GetChild(i));
+            towerPointAvailability.Add(true);
         }
 
         Debug.Log("tilemap.size: " + pathTilemap.size);

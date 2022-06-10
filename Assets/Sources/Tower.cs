@@ -14,12 +14,26 @@ public class Tower : MonoBehaviour
     float attackTimer;
     float attackTimePeriod = 1f;
     int damage;
+    int towerPointIndex;
 
     static Monster TargetMonster(List<Monster> monstersInRange)
     {
         if (monstersInRange.Count == 0)
             return null;
         return monstersInRange.Aggregate((m1, m2) => m1.totalPathProgress > m2.totalPathProgress ? m1 : m2);
+    }
+
+    public SerializedTower GetSerialized()
+    {
+        return new SerializedTower(damage, attackTimer, towerPointIndex);
+    }
+
+    public void Initialize(int towerPointIndex, int damage, float attackTimer = 0f)
+    {
+        this.towerPointIndex = towerPointIndex;
+        this.damage = damage;
+        this.attackTimer = attackTimer;
+        damageText.text = damage.ToString();
     }
 
     void OnTriggerEnter2D(Collider2D other) {

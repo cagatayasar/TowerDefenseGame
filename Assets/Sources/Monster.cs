@@ -19,11 +19,35 @@ public class Monster : MonoBehaviour
 
     public float totalPathProgress => (pathPointIndex + travelledDistance / distance);
 
+    public SerializedMonster GetSerialized()
+    {
+        return new SerializedMonster(health, pathPointIndex, travelledDistance);
+    }
+
+    public void Initialize(int health = 100, int pathPointIndex = 0, float travelledDistance = 0f)
+    {
+        this.health = health;
+        this.pathPointIndex = pathPointIndex;
+        this.travelledDistance = travelledDistance;
+
+        lastPathPoint = Map.instance.pathPoints[pathPointIndex];
+        if (pathPointIndex >= Map.instance.pathPoints.Length - 1) {
+            nextPathPoint = null;
+        } else {
+            nextPathPoint = Map.instance.pathPoints[pathPointIndex+1];
+            distance = (nextPathPoint.position - lastPathPoint.position).magnitude;
+            transform.position = Vector3.Lerp(lastPathPoint.position, nextPathPoint.position, travelledDistance / distance);
+        }
+
+        healthText.text = health.ToString();
+    }
+
     public void ReceiveDamage(int damage)
     {
         health -= damage;
         healthText.text = health.ToString();
         if (health <= 0) {
+            Game.instance.RemoveMonster(this);
             isDead = true;
             Destroy(gameObject);
         }
@@ -49,14 +73,5 @@ public class Monster : MonoBehaviour
                 transform.position = Vector3.Lerp(lastPathPoint.position, nextPathPoint.position, travelledDistance / distance);
             }
         }
-    }
-
-    void Start()
-    {
-        pathPointIndex = 0;
-        lastPathPoint = Map.instance.pathPoints[0];
-        nextPathPoint = Map.instance.pathPoints[1];
-        distance = (nextPathPoint.position - lastPathPoint.position).magnitude;
-        healthText.text = health.ToString();
     }
 }
