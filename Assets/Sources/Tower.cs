@@ -6,15 +6,25 @@ using TMPro;
 
 public class Tower : MonoBehaviour
 {
+    const float dragMaterialAlpha = 0.37f;
+
+    static Material defaultMaterial = null;
+    static Material dragMaterial = null;
+
     public TMP_Text damageText;
     public Projectile projectilePrefab;
+    public Collider2D dragCollider;
+    public Transform gunRotator;
+    public SpriteRenderer baseRenderer;
+    public SpriteRenderer gunRenderer;
 
+    [HideInInspector] public int damage;
+    [HideInInspector] public int towerPointIndex;
     List<Monster> monstersInRange = new List<Monster>();
     Monster targetMonster;
     float attackTimer;
     float attackTimePeriod = 1f;
-    int damage;
-    int towerPointIndex;
+    bool isDragged;
 
     static Monster TargetMonster(List<Monster> monstersInRange)
     {
@@ -36,7 +46,34 @@ public class Tower : MonoBehaviour
         damageText.text = damage.ToString();
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    public void OnDragStart()
+    {
+        isDragged = true;
+        baseRenderer.material = dragMaterial;
+        gunRenderer.material = dragMaterial;
+        baseRenderer.sortingOrder += 10;
+        gunRenderer.sortingOrder += 10;
+    }
+
+    public void OnDrag()
+    {
+        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = transform.position.z;
+        transform.position = mousePosition;
+    }
+
+    public void OnDragEnd()
+    {
+        isDragged = false;
+        baseRenderer.material = defaultMaterial;
+        gunRenderer.material = defaultMaterial;
+        transform.position = Map.instance.towerPoints[towerPointIndex].position;
+        baseRenderer.sortingOrder -= 10;
+        gunRenderer.sortingOrder -= 10;
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
         var monster = other.GetComponent<Monster>();
         monstersInRange.Add(monster);
     }
@@ -52,8 +89,16 @@ public class Tower : MonoBehaviour
     void Update()
     {
         attackTimer += Time.deltaTime;
+
+        if (isDragged)
+            return;
+
+        targetMonster ??= TargetMonster(monstersInRange);
+        if (targetMonster != null) {
+            var displacement = (targetMonster.transform.position - gunRotator.position).normalized;
+            gunRotator.rotation = Quaternion.Euler(0f, 0f, Vector3.SignedAngle(Vector3.up, displacement, Vector3.forward));
+        }
         if (attackTimer > attackTimePeriod) {
-            targetMonster ??= TargetMonster(monstersInRange);
             if (targetMonster != null) {
                 Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity, Game.instance.projectilesParent);
                 projectile.Initialize(targetMonster, damage);
@@ -66,5 +111,11 @@ public class Tower : MonoBehaviour
     {
         damage = Random.Range(10, 51);
         damageText.text = damage.ToString();
+
+        if (defaultMaterial == null) {
+            defaultMaterial = baseRenderer.material;
+            dragMaterial = new Material(baseRenderer.material);
+            dragMaterial.SetColor("_Color", new Color(1f, 1f, 1f, dragMaterialAlpha));
+        }
     }
 }

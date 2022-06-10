@@ -30,6 +30,7 @@ public class Game : MonoBehaviour
 
     List<Monster> monsters = new List<Monster>();
     List<Tower> towers = new List<Tower>();
+    Tower draggedTower;
     float monsterSpawnTimer = 0f;
     float totalTimePassed = 0f;
     int towerCost = 10;
@@ -57,7 +58,7 @@ public class Game : MonoBehaviour
 
         gold -= towerCost;
         goldText.text = gold.ToString();
-        towerCost += 10;
+        towerCost += 5;
         placeTowerButton.interactable = gold >= towerCost;
         towerCostText.text = towerCost.ToString();
 
@@ -72,6 +73,25 @@ public class Game : MonoBehaviour
         tower.Initialize(index, Random.Range(10, 51));
         towers.Add(tower);
         Map.instance.towerPointAvailability[index] = false;
+    }
+
+    void MergeTowers(Tower stationaryTower, Tower draggedTower)
+    {
+        if (stationaryTower.damage == 50 || draggedTower.damage == 50)
+            return;
+
+        stationaryTower.damage = Mathf.Min(50, stationaryTower.damage + draggedTower.damage);
+        stationaryTower.damageText.text = stationaryTower.damage.ToString();
+        if (stationaryTower.damage == 50) {
+            mana += 1;
+            manaText.text = mana.ToString();
+        }
+
+        Map.instance.towerPointAvailability[draggedTower.towerPointIndex] = true;
+        Destroy(draggedTower.gameObject);
+
+        towerCost -= 5;
+        towerCostText.text = towerCost.ToString();  
     }
 
     void InitializeWithState(GameState gameState)
@@ -139,6 +159,33 @@ public class Game : MonoBehaviour
             var monster = Instantiate(monsterPrefab, Map.instance.pathPoints[0].position, Quaternion.identity, monstersParent);
             monster.Initialize();
             monsters.Add(monster);
+        }
+
+        if (draggedTower == null) {
+            if (Input.GetMouseButtonDown(0)) {
+                var collider = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), LayerMask.GetMask("TowerDrag"));
+                if (collider != null) {
+                    draggedTower = collider.GetComponentInParent<Tower>();
+                    draggedTower.OnDragStart();
+                }
+            }
+        }
+        // "else" is not used here, since on very low frames GetMouseButtonUp/Down can be called on the same frame (IIRC).
+        if (draggedTower != null) {
+            if (Input.GetMouseButton(0)) {
+                draggedTower.OnDrag();
+            }
+            if (Input.GetMouseButtonUp(0)) {
+                draggedTower.OnDragEnd();
+                var colliders = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), LayerMask.GetMask("TowerDrag"));
+                foreach (var c in colliders) {
+                    if (draggedTower.dragCollider != c) {
+                        MergeTowers(c.GetComponentInParent<Tower>(), draggedTower);
+                        break;
+                    }
+                }
+                draggedTower = null;
+            }
         }
 
         var minutes = (int)(totalTimePassed / 60f);
