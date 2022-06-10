@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityAction = UnityEngine.Events.UnityAction;
+using TMPro;
 
 public class Game : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class Game : MonoBehaviour
     public Button saveButton;
     public Button loadSaveButton;
     public Button deleteSaveButton;
+    public TMP_Text timeText;
+    public TMP_Text monsterKillCountText;
+    public TMP_Text goldText;
+    public TMP_Text manaText;
+    public TMP_Text towerCostText;
     public Tower towerPrefab;
     public Monster monsterPrefab;
 
@@ -26,10 +32,20 @@ public class Game : MonoBehaviour
     List<Tower> towers = new List<Tower>();
     float monsterSpawnTimer = 0f;
     float totalTimePassed = 0f;
-    int gold = 0;
+    int towerCost = 10;
+    int monsterKillCount = 0;
+    int gold = 100;
+    int mana = 0;
 
     public void RemoveMonster(Monster monster)
-    {
+{
+        monsterKillCount++;
+        monsterKillCountText.text = monsterKillCount.ToString();
+
+        gold += 10;
+        goldText.text = gold.ToString();
+        placeTowerButton.interactable = gold >= towerCost;
+
         monsters.Remove(monster);
     }
 
@@ -38,6 +54,12 @@ public class Game : MonoBehaviour
         var count = Map.instance.towerPoints.Count;
         if (count == 0)
             return;
+
+        gold -= towerCost;
+        goldText.text = gold.ToString();
+        towerCost += 10;
+        placeTowerButton.interactable = gold >= towerCost;
+        towerCostText.text = towerCost.ToString();
 
         var availablePointIndexes = Map.instance.towerPointAvailability
             .Select((boolValue, i) => (boolValue, i)).Where(x => x.boolValue).Select(x => x.i).ToList();
@@ -49,7 +71,6 @@ public class Game : MonoBehaviour
         var tower = Instantiate(towerPrefab, point.transform.position, Quaternion.identity, towersParent);
         tower.Initialize(index, Random.Range(10, 51));
         towers.Add(tower);
-
         Map.instance.towerPointAvailability[index] = false;
     }
 
@@ -113,18 +134,23 @@ public class Game : MonoBehaviour
     {
         monsterSpawnTimer += Time.deltaTime;
         totalTimePassed += Time.deltaTime;
-        if (monsterSpawnTimer > 1f / (1f + totalTimePassed * 0.1f)) {
+        if (monsterSpawnTimer > 2 / (1f + totalTimePassed * 0.03f)) {
             monsterSpawnTimer = 0f;
             var monster = Instantiate(monsterPrefab, Map.instance.pathPoints[0].position, Quaternion.identity, monstersParent);
             monster.Initialize();
             monsters.Add(monster);
         }
 
+        var minutes = (int)(totalTimePassed / 60f);
+        var seconds = (int)(totalTimePassed % 60f);
+        timeText.text = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.UpArrow)) {
-            if (Time.timeScale * 2.0f < 100.0f)
+            if (Time.timeScale * 2.0f < 100.0f) {
                 Time.timeScale *= 2.0f;
-            else
+            } else {
                 Time.timeScale = 99.0f;
+            }
         }
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.DownArrow)) {
             if (Time.timeScale / 2.0f > 0.01f)
@@ -162,5 +188,10 @@ public class Game : MonoBehaviour
         deleteSaveButton.onClick.AddListener(DeleteSave);
 
         loadAndInitialize();
+
+        monsterKillCountText.text = monsterKillCount.ToString();
+        goldText.text = gold.ToString();
+        manaText.text = mana.ToString();
+        towerCostText.text = towerCost.ToString();
     }
 }
