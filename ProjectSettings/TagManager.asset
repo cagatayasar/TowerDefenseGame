@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Monster
+    uniqueID: 596767507
+    locked: 0
+  - name: Projectile
+    uniqueID: 2033912979
+    locked: 0
   - name: Tower
     uniqueID: 504331523
     locked: 0
