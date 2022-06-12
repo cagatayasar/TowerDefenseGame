@@ -32,7 +32,12 @@ public class Tower : MonoBehaviour
     {
         if (monstersInRange.Count == 0)
             return null;
-        return monstersInRange.Aggregate((m1, m2) => m1.totalPathProgress > m2.totalPathProgress ? m1 : m2);
+        var monsters = monstersInRange.Where(m => !m.willDie);
+        if (monsters.Count() == 0) {
+            return monstersInRange.First();
+        } else {
+            return monsters.Aggregate((m1, m2) => m1.totalPathProgress > m2.totalPathProgress ? m1 : m2);
+        }
     }
 
     public SerializedTower GetSerialized()
@@ -103,7 +108,9 @@ public class Tower : MonoBehaviour
         attackTimer += Time.deltaTime;
         if (isDragged) return;
 
-        targetMonster ??= TargetMonster(monstersInRange);
+        if (targetMonster == null || targetMonster.willDie) {
+            targetMonster = TargetMonster(monstersInRange);
+        }
         if (targetMonster != null) {
             var displacement = (targetMonster.transform.position - gunRotator.position).normalized;
             gunRotator.rotation = Quaternion.Euler(0f, 0f, Vector3.SignedAngle(Vector3.up, displacement, Vector3.forward));
@@ -113,6 +120,9 @@ public class Tower : MonoBehaviour
                 var projectile = Instantiate(projectilePrefab, transform.position, gunRotator.rotation, Game.instance.projectilesParent);
                 projectile.Initialize(targetMonster, damage);
                 attackTimer = 0f;
+                if (damage >= targetMonster.health) {
+                    targetMonster.willDie = true;
+                }
             }
         }
     }

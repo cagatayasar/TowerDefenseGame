@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6883292360056319837, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
       propertyPath: maxHealth
-      value: 50000
+      value: 30000
       objectReference: {fileID: 0}
     - target: {fileID: 6883292360056319837, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
       propertyPath: monsterType
@@ -74,6 +74,10 @@ PrefabInstance:
     - target: {fileID: 6883292360056319837, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
       propertyPath: maxPathOffset
       value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6883292360056319837, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
+      propertyPath: damageToCastle
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7639477451733588037, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
       propertyPath: m_Sprite

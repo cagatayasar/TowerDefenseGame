@@ -518,17 +518,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c49e89368ee0e7f4e86a1727bed04a79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterType: 0
   maxHealth: 100
   goldDrop: 10
+  damageToCastle: 1
   speed: 1.4
-  minPathOffset: 0
-  maxPathOffset: 0.5
   bodyRenderer: {fileID: 7639477451733588037}
   healthBarCanvasGroup: {fileID: 3262196828817923906}
   healthBarRedMask: {fileID: 1194335635588526905}
   travelledDistance: 0
   pathPointIndex: 0
+  willDie: 0
   isDead: 0
+  health: 0
 --- !u!61 &1677345763228193948
 BoxCollider2D:
   m_ObjectHideFlags: 0

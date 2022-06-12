@@ -19,6 +19,7 @@ public class Monster : MonoBehaviour
     public Monster.Type monsterType;
     public int maxHealth;
     public int goldDrop;
+    public int damageToCastle;
     public float speed;
 
     public SpriteRenderer bodyRenderer;
@@ -27,13 +28,14 @@ public class Monster : MonoBehaviour
 
     [HideInInspector] public float travelledDistance = 0f;
     [HideInInspector] public int pathPointIndex = 0;
+    [HideInInspector] public bool willDie;
     [HideInInspector] public bool isDead;
+    [HideInInspector] public int health;
 
     Transform lastPathPoint;
     Transform nextPathPoint;
     float distance;
     float healthBarRedMaskWidth;
-    int health;
 
     public float totalPathProgress => (pathPointIndex + travelledDistance / distance);
 

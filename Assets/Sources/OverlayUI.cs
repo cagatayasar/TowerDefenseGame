@@ -19,27 +19,35 @@ public class OverlayUI : MonoBehaviour
     public Button saveButton;
     public Button loadSaveButton;
     public Button deleteSaveButton;
-    public Button retryButton;
+
+    [Space(10)]
     public TMP_Text waveAnnouncementText;
     public TMP_Text waveText;
     public TMP_Text killCountText;
     public TMP_Text goldText;
     public TMP_Text manaText;
     public TMP_Text towerCostText;
+
+    [Space(10)]
+    public TMP_Text resultsMainText;
     public TMP_Text resultsTimeText;
     public TMP_Text resultsWaveText;
     public TMP_Text resultsKillCountText;
+    public Button resultsRetryButton;
+    public TMP_Text resultsRetryText;
+
+    [Space(10)]
     public TMP_Text skillDescriptionText;
     public CanvasGroup skillDescriptionCanvasGroup;
     public CanvasGroup bgShadowCanvasGroup;
     public RectTransform endGameWindow;
 
-    public void ShowSkillDescription(SkillButton skillButton)
+    public void ShowSkillDescription(Skill skill, float xPosition)
     {
-        skillDescriptionText.text = skillButton.description;
+        skillDescriptionText.text = skill.description;
         skillDescriptionCanvasGroup.alpha = 1f;
         var pos = skillDescriptionCanvasGroup.transform.position;
-        pos.x = skillButton.transform.position.x;
+        pos.x = xPosition;
         skillDescriptionCanvasGroup.transform.position = pos;
     }
 
@@ -48,8 +56,10 @@ public class OverlayUI : MonoBehaviour
         skillDescriptionCanvasGroup.alpha = 0f;
     }
 
-    public void OnGameEnd()
+    public void OnGameEnd(bool isPlayerWinner)
     {
+        resultsMainText.text = isPlayerWinner ? "YOU WIN!" : "GAME OVER";
+        resultsRetryText.text = isPlayerWinner ? "Replay?" : "Retry";
         var minutes = (int)(Game.instance.totalTimePassed / 60f);
         var seconds = (int)(Game.instance.totalTimePassed % 60f);
         resultsTimeText.text = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;

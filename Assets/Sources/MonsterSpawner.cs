@@ -76,6 +76,11 @@ public class MonsterSpawner : MonoBehaviour
             yield return new WaitForSeconds(wave.waitAfter);
             OverlayUI.instance.OnWaveChanged();
         }
+
+        while (monsters.Count > 0) {
+            yield return null;
+        }
+        Game.instance.EndGame(true);
     }
 
     IEnumerator SpawnMonsterPool_Coroutine(Wave wave, List<Monster.Type> monsterPool)

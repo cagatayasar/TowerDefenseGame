@@ -15,16 +15,14 @@ public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public static List<SkillButton> descriptionShownFor;
 
-    public SkillType skillType;
+    public Skill skill;
     public Button button;
     public TMP_Text manaText;
-    public int manaCost;
-    public string description;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         descriptionShownFor.Add(this);
-        OverlayUI.instance.ShowSkillDescription(descriptionShownFor[0]);
+        OverlayUI.instance.ShowSkillDescription(descriptionShownFor[0].skill, transform.position.x);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -37,14 +35,14 @@ public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnManaChanged()
     {
-        button.interactable = Game.instance.mana >= manaCost;
+        button.interactable = Game.instance.mana >= skill.manaCost;
     }
 
     void Awake()
     {
         descriptionShownFor ??= new List<SkillButton>();
-        manaText.text = manaCost.ToString();
+        manaText.text = skill.manaCost.ToString();
 
-        button.onClick.AddListener(() => Game.instance.ExecuteSkill(this));
+        button.onClick.AddListener(() => Game.instance.ExecuteSkill(skill));
     }
 }

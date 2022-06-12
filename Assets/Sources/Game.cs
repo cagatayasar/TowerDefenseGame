@@ -43,37 +43,37 @@ public class Game : MonoBehaviour
         OverlayUI.instance.OnGoldChanged();
     }
 
-    public void EndGame()
+    public void EndGame(bool isPlayerWinner)
     {
         MonsterSpawner.instance.StopAllCoroutines();
         isPaused = true;
-        OverlayUI.instance.OnGameEnd();
+        OverlayUI.instance.OnGameEnd(isPlayerWinner);
     }
 
-    public void ExecuteSkill(SkillButton skillButton)
+    public void ExecuteSkill(Skill skill)
     {
-        if (skillButton.skillType == SkillButton.SkillType.Damage) {
+        if (skill.skillType == Skill.Type.Damage) {
             var count = MonsterSpawner.instance.monsters.Count;
             for (int i = 0; i < count; i++) {
                 var monster = MonsterSpawner.instance.monsters[i];
-                monster.ReceiveDamage(50);
+                monster.ReceiveDamage(100);
                 if (monster.isDead) {
                     i--;
                     count--;
                 }
             }
-        } else if (skillButton.skillType == SkillButton.SkillType.Freeze) {
+        } else if (skill.skillType == Skill.Type.Freeze) {
             Monster.freezeTimeMultiplier = 0f;
             Utils.CallDelayed(() => Monster.freezeTimeMultiplier = 1f, 3f);
-        } else if (skillButton.skillType == SkillButton.SkillType.PlaceTower) {
-            PlaceTower();
+        } else if (skill.skillType == Skill.Type.PlaceTower) {
+            PlaceTower(50, 50);
         }
 
-        mana -= skillButton.manaCost;
+        mana -= skill.manaCost;
         OverlayUI.instance.OnManaChanged();
     }
 
-    bool PlaceTower()
+    bool PlaceTower(int damageMin, int damageMax)
     {
         var count = Map.instance.towerPoints.Count;
         if (count == 0)
@@ -87,7 +87,7 @@ public class Game : MonoBehaviour
         var index = availablePointIndexes[Random.Range(0, availablePointIndexes.Count)];
         var point = Map.instance.towerPoints[index];
         var tower = Instantiate(towerPrefab, point.transform.position, Quaternion.identity, towersParent);
-        tower.Initialize(index, Random.Range(gameAttributes.towerInitialDamageMin, gameAttributes.towerInitialDamageMax+1));
+        tower.Initialize(index, Random.Range(damageMin, damageMax+1));
         towers.Add(tower);
         Map.instance.towerPointAvailability[index] = false;
         return true;
@@ -267,14 +267,14 @@ public class Game : MonoBehaviour
         UnityAction loadAndInitialize = () => InitializeWithState(LoadSave());
 
         OverlayUI.instance.placeTowerButton.onClick.AddListener(() => {
-            if (PlaceTower()) {
+            if (PlaceTower(gameAttributes.towerInitialDamageMin, gameAttributes.towerInitialDamageMax)) {
                 ReceiveTowerPayment();
             }
         });
         OverlayUI.instance.saveButton.onClick.AddListener(SaveGame);
         OverlayUI.instance.loadSaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         OverlayUI.instance.deleteSaveButton.onClick.AddListener(DeleteSave);
-        OverlayUI.instance.retryButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        OverlayUI.instance.resultsRetryButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         OverlayUI.instance.OnSaveStateChanged(File.Exists(Application.persistentDataPath + saveFileName));
 
         loadAndInitialize();

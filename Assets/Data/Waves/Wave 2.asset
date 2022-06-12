@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1048b7fe843e16f469e948fbfbcf2a59, type: 3}
-  m_Name: Wave 4
+  m_Name: Wave 2
   m_EditorClassIdentifier: 
   monsterGroups:
   - monsterType: 0
-    count: 200
+    count: 15
   - monsterType: 1
-    count: 75
+    count: 5
   - monsterType: 2
-    count: 75
+    count: 0
   - monsterType: 3
-    count: 1
-  spawnTimePeriodStart: 0.25
-  spawnTimePeriodEnd: 0.15
-  waitBefore: 25
+    count: 0
+  spawnTimePeriodStart: 0.5
+  spawnTimePeriodEnd: 0.35
+  waitBefore: 20
   waitAfter: 0

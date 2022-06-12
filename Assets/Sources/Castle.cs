@@ -17,6 +17,7 @@ public class Castle : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         var monster = other.GetComponent<Monster>();
+        var receivedDamage = monster.damageToCastle;
         monster.ReceiveDamage(monster.maxHealth);
 
         activeTween?.Stop();
@@ -24,11 +25,11 @@ public class Castle : MonoBehaviour
             activeTween = Tween.Color(baseRenderer, Color.white, 0.3f, 0f, Tween.EaseIn);
         });
 
-        health -= 1;
+        health = Mathf.Max(0, health - receivedDamage);
         healthText.text = health.ToString();
 
         if (health <= 0) {
-            Game.instance.EndGame();
+            Game.instance.EndGame(false);
         }
     }
 

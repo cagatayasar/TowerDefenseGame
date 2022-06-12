@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 17623811}
   - component: {fileID: 17623810}
   m_Layer: 5
-  m_Name: Game Over Text
+  m_Name: Main Result Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1154,6 +1154,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1827008035}
     m_Modifications:
     - target: {fileID: 485463673737939070, guid: afdc72c5666015d46af778a95f972697, type: 3}
+      propertyPath: skill
+      value: 
+      objectReference: {fileID: 11400000, guid: f63e602ef2d4c624198dd2cb6a00af13, type: 2}
+    - target: {fileID: 485463673737939070, guid: afdc72c5666015d46af778a95f972697, type: 3}
       propertyPath: manaCost
       value: 1
       objectReference: {fileID: 0}
@@ -1515,6 +1519,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 789254703}
     m_Modifications:
+    - target: {fileID: 1940854525043456454, guid: 9f3a5f01e09f9d54fa878d1b73fa8567, type: 3}
+      propertyPath: health
+      value: 999999
+      objectReference: {fileID: 0}
     - target: {fileID: 8500850300145416772, guid: 9f3a5f01e09f9d54fa878d1b73fa8567, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -5386,6 +5394,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8500850300145416772, guid: 8f69301294d4fa74c96ceb3b8077e28a, type: 3}
   m_PrefabInstance: {fileID: 1336762462}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1350333021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6175212007464262047, guid: 698d14d12f671514e8dc1e22177721fb, type: 3}
+  m_PrefabInstance: {fileID: 490198271}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1369263357
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5455,6 +5474,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1827008035}
     m_Modifications:
+    - target: {fileID: 485463673737939070, guid: afdc72c5666015d46af778a95f972697, type: 3}
+      propertyPath: skill
+      value: 
+      objectReference: {fileID: 11400000, guid: 577b1fcad44692a4abb7d8957560c376, type: 2}
     - target: {fileID: 485463673737939070, guid: afdc72c5666015d46af778a95f972697, type: 3}
       propertyPath: manaCost
       value: 1
@@ -6486,16 +6509,18 @@ MonoBehaviour:
   saveButton: {fileID: 1236759624}
   loadSaveButton: {fileID: 1772413489}
   deleteSaveButton: {fileID: 675862727}
-  retryButton: {fileID: 1700908403}
   waveAnnouncementText: {fileID: 1084970678}
   waveText: {fileID: 6175212006560314224}
   killCountText: {fileID: 1915660447}
   goldText: {fileID: 1910251745}
   manaText: {fileID: 1056084340}
   towerCostText: {fileID: 979989581}
+  resultsMainText: {fileID: 17623810}
   resultsTimeText: {fileID: 821678636}
   resultsWaveText: {fileID: 1841540435}
   resultsKillCountText: {fileID: 427158325}
+  resultsRetryButton: {fileID: 1700908403}
+  resultsRetryText: {fileID: 1350333021}
   skillDescriptionText: {fileID: 482586358}
   skillDescriptionCanvasGroup: {fileID: 507531854}
   bgShadowCanvasGroup: {fileID: 378957853}
@@ -10510,6 +10535,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1827008035}
     m_Modifications:
+    - target: {fileID: 485463673737939070, guid: afdc72c5666015d46af778a95f972697, type: 3}
+      propertyPath: skill
+      value: 
+      objectReference: {fileID: 11400000, guid: 7c87dd4bbd151404e88da99cf6cc3fd9, type: 2}
     - target: {fileID: 485463673737939070, guid: afdc72c5666015d46af778a95f972697, type: 3}
       propertyPath: manaCost
       value: 1
