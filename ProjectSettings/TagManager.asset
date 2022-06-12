@@ -14,7 +14,7 @@ TagManager:
   - TowerMonsterDetector
   - Monster
   - TowerDrag
-  - 
+  - Castle
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Tower
     uniqueID: 504331523
+    locked: 0
+  - name: Castle
+    uniqueID: 713958605
     locked: 0

@@ -8,9 +8,12 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityAction = UnityEngine.Events.UnityAction;
 using TMPro;
+using Pixelplacement;
 
 public class Game : MonoBehaviour
 {
+    public const string saveFileName = "/ManualSave.dat";
+
     public static Game instance;
 
     public Transform towersParent;
@@ -20,34 +23,56 @@ public class Game : MonoBehaviour
     public Button saveButton;
     public Button loadSaveButton;
     public Button deleteSaveButton;
+    public Button retryButton;
     public TMP_Text timeText;
     public TMP_Text monsterKillCountText;
     public TMP_Text goldText;
     public TMP_Text manaText;
     public TMP_Text towerCostText;
+    public TMP_Text resultsTimeText;
+    public TMP_Text resultsWaveText;
+    public TMP_Text resultsMonsterKillCountText;
+    public CanvasGroup bgShadowCanvasGroup;
+    public RectTransform endGameWindow;
+    public Castle castle;
     public Tower towerPrefab;
     public Monster monsterPrefab;
+    public GameAttributes gameAttributes;
+
+    [HideInInspector] public bool isPaused;
 
     List<Monster> monsters = new List<Monster>();
     List<Tower> towers = new List<Tower>();
     Tower draggedTower;
     float monsterSpawnTimer = 0f;
     float totalTimePassed = 0f;
-    int towerCost = 10;
-    int monsterKillCount = 0;
-    int gold = 100;
-    int mana = 0;
+    int towerCost;
+    int monsterKillCount;
+    int gold;
+    int mana;
 
     public void RemoveMonster(Monster monster)
-{
+    {
         monsterKillCount++;
         monsterKillCountText.text = monsterKillCount.ToString();
 
-        gold += 10;
+        gold += gameAttributes.monsterGoldDrop;
         goldText.text = gold.ToString();
-        placeTowerButton.interactable = gold >= towerCost;
+        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
 
         monsters.Remove(monster);
+    }
+
+    public void EndGame()
+    {
+        isPaused = true;
+        resultsTimeText.text = timeText.text;
+        resultsWaveText.text = "Wave : 0/7";
+        resultsMonsterKillCountText.text = monsterKillCountText.text;
+
+        bgShadowCanvasGroup.blocksRaycasts = true;
+        Tween.CanvasGroupAlpha(bgShadowCanvasGroup, 0.4f, 0.7f, 0f, Tween.EaseOut);
+        Tween.AnchoredPosition(endGameWindow, Vector2.zero, 0.7f, 0.2f, Tween.EaseOut);
     }
 
     void PlaceTower()
@@ -56,42 +81,45 @@ public class Game : MonoBehaviour
         if (count == 0)
             return;
 
-        gold -= towerCost;
-        goldText.text = gold.ToString();
-        towerCost += 5;
-        placeTowerButton.interactable = gold >= towerCost;
-        towerCostText.text = towerCost.ToString();
-
         var availablePointIndexes = Map.instance.towerPointAvailability
             .Select((boolValue, i) => (boolValue, i)).Where(x => x.boolValue).Select(x => x.i).ToList();
         if (availablePointIndexes.Count == 0)
             return;
+
+        gold -= towerCost;
+        goldText.text = gold.ToString();
+        towerCost += gameAttributes.towerCostIncreaseAmount;
+        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
+        towerCostText.text = towerCost.ToString();
         
         var index = availablePointIndexes[Random.Range(0, availablePointIndexes.Count)];
         var point = Map.instance.towerPoints[index];
         var tower = Instantiate(towerPrefab, point.transform.position, Quaternion.identity, towersParent);
-        tower.Initialize(index, Random.Range(10, 51));
+        tower.Initialize(index, Random.Range(gameAttributes.towerInitialDamageMin, gameAttributes.towerInitialDamageMax+1));
         towers.Add(tower);
         Map.instance.towerPointAvailability[index] = false;
     }
 
     void MergeTowers(Tower stationaryTower, Tower draggedTower)
     {
-        if (stationaryTower.damage == 50 || draggedTower.damage == 50)
+        if (stationaryTower.damage == gameAttributes.towerMergedDamageMax ||
+            draggedTower.damage    == gameAttributes.towerMergedDamageMax)
             return;
 
-        stationaryTower.damage = Mathf.Min(50, stationaryTower.damage + draggedTower.damage);
+        stationaryTower.damage = Mathf.Min(gameAttributes.towerMergedDamageMax, stationaryTower.damage + draggedTower.damage);
         stationaryTower.damageText.text = stationaryTower.damage.ToString();
-        if (stationaryTower.damage == 50) {
+        if (stationaryTower.damage == gameAttributes.towerMergedDamageMax) {
             mana += 1;
             manaText.text = mana.ToString();
+            stationaryTower.gunRenderer.enabled = false;
+            stationaryTower.gunUpgradedRenderer.enabled = true;
         }
 
         Map.instance.towerPointAvailability[draggedTower.towerPointIndex] = true;
+        towers.Remove(draggedTower);
         Destroy(draggedTower.gameObject);
 
-        towerCost -= 5;
-        towerCostText.text = towerCost.ToString();  
+        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
     }
 
     void InitializeWithState(GameState gameState)
@@ -111,24 +139,29 @@ public class Game : MonoBehaviour
             towers.Add(tower);
             Map.instance.towerPointAvailability[st.towerPointIndex] = false;
         }
-        totalTimePassed = gameState.totalTimePassed;
+        totalTimePassed = gameState.timePassed;
         gold = gameState.gold;
+        mana = gameState.mana;
+        monsterKillCount = gameState.monsterKillCount;
+        towerCost = gameState.towerCost;
+        castle.health = gameState.castleHealth;
     }
 
     void SaveGame()
     {
-        var gameState = new GameState(monsters, towers, totalTimePassed, gold);
+        var gameState = new GameState(monsters, towers, totalTimePassed, gold, mana, monsterKillCount, towerCost, castle.health);
         var bf = new BinaryFormatter();
-        var path = Application.persistentDataPath + "/ManualSave.dat";
+        var path = Application.persistentDataPath + saveFileName;
         var stream = new FileStream(path, FileMode.Create);
 
         bf.Serialize(stream, gameState);
         stream.Close();
+        deleteSaveButton.interactable = true;
     }
 
     GameState LoadSave()
     {
-        var path = Application.persistentDataPath + "/ManualSave.dat";
+        var path = Application.persistentDataPath + saveFileName;
         if (File.Exists(path)) {
             var bf = new BinaryFormatter();
             var stream = new FileStream(path, FileMode.Open);
@@ -144,14 +177,17 @@ public class Game : MonoBehaviour
 
     void DeleteSave()
     {
-        var path = Application.persistentDataPath + "/ManualSave.dat";
+        var path = Application.persistentDataPath + saveFileName;
         if (File.Exists(path)) {
             File.Delete(path);
         }
+        deleteSaveButton.interactable = false;
     }
 
     void Update()
     {
+        if (isPaused) return;
+
         monsterSpawnTimer += Time.deltaTime;
         totalTimePassed += Time.deltaTime;
         if (monsterSpawnTimer > 2 / (1f + totalTimePassed * 0.03f)) {
@@ -165,8 +201,11 @@ public class Game : MonoBehaviour
             if (Input.GetMouseButtonDown(0)) {
                 var collider = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition), LayerMask.GetMask("TowerDrag"));
                 if (collider != null) {
-                    draggedTower = collider.GetComponentInParent<Tower>();
-                    draggedTower.OnDragStart();
+                    var tower = collider.GetComponentInParent<Tower>();
+                    if (tower.damage != gameAttributes.towerMergedDamageMax) {
+                        draggedTower = tower;
+                    }
+                    draggedTower?.OnDragStart();
                 }
             }
         }
@@ -227,15 +266,22 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+        gold = gameAttributes.startingGold;
+        mana = gameAttributes.startingMana;
+        towerCost = gameAttributes.startingTowerCost;
+
         UnityAction loadAndInitialize = () => InitializeWithState(LoadSave());
 
         placeTowerButton.onClick.AddListener(PlaceTower);
         saveButton.onClick.AddListener(SaveGame);
         loadSaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         deleteSaveButton.onClick.AddListener(DeleteSave);
+        retryButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        deleteSaveButton.interactable = File.Exists(Application.persistentDataPath + saveFileName);
 
         loadAndInitialize();
 
+        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
         monsterKillCountText.text = monsterKillCount.ToString();
         goldText.text = gold.ToString();
         manaText.text = mana.ToString();

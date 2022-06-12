@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using Pixelplacement;
 
 public class Tower : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Tower : MonoBehaviour
     public Transform gunRotator;
     public SpriteRenderer baseRenderer;
     public SpriteRenderer gunRenderer;
+    public SpriteRenderer gunUpgradedRenderer;
 
     [HideInInspector] public int damage;
     [HideInInspector] public int towerPointIndex;
@@ -44,6 +46,13 @@ public class Tower : MonoBehaviour
         this.damage = damage;
         this.attackTimer = attackTimer;
         damageText.text = damage.ToString();
+
+        if (damage == Game.instance.gameAttributes.towerMergedDamageMax) {
+            gunRenderer.enabled = false;
+            gunUpgradedRenderer.enabled = true;
+        }
+
+        Tween.LocalScale(transform, Vector3.zero * 0.6f, Vector3.one, 0.4f, 0f, Tween.EaseIn);
     }
 
     public void OnDragStart()
@@ -74,8 +83,7 @@ public class Tower : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        var monster = other.GetComponent<Monster>();
-        monstersInRange.Add(monster);
+        monstersInRange.Add(other.GetComponent<Monster>());
     }
 
     void OnTriggerExit2D(Collider2D other) {
@@ -88,10 +96,10 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        attackTimer += Time.deltaTime;
+        if (Game.instance.isPaused) return;
 
-        if (isDragged)
-            return;
+        attackTimer += Time.deltaTime;
+        if (isDragged) return;
 
         targetMonster ??= TargetMonster(monstersInRange);
         if (targetMonster != null) {
@@ -100,7 +108,7 @@ public class Tower : MonoBehaviour
         }
         if (attackTimer > attackTimePeriod) {
             if (targetMonster != null) {
-                Projectile projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity, Game.instance.projectilesParent);
+                var projectile = Instantiate(projectilePrefab, transform.position, gunRotator.rotation, Game.instance.projectilesParent);
                 projectile.Initialize(targetMonster, damage);
                 attackTimer = 0f;
             }
