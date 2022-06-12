@@ -62,11 +62,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75220801cf5cd674cbbdfae638841fe4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillType: 0
+  skill: {fileID: 0}
   button: {fileID: 1860772378604617568}
+  image: {fileID: 5503407561092037232}
   manaText: {fileID: 8152295697979751600}
-  manaCost: 1
-  description: Description
 --- !u!114 &1860772378604617569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +206,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 283011122, guid: 679f4f8fe526132429caf05d15ecee12, type: 3}
+  m_Sprite: {fileID: 1930435153, guid: 679f4f8fe526132429caf05d15ecee12, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

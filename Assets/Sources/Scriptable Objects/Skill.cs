@@ -12,6 +12,7 @@ public class Skill : ScriptableObject
     }
 
     public Skill.Type skillType;
+    public Sprite sprite;
     public int manaCost;
     public string description;
 }

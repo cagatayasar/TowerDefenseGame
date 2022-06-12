@@ -17,6 +17,7 @@ public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public Skill skill;
     public Button button;
+    public Image image;
     public TMP_Text manaText;
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -42,6 +43,7 @@ public class SkillButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         descriptionShownFor ??= new List<SkillButton>();
         manaText.text = skill.manaCost.ToString();
+        image.sprite = skill.sprite;
 
         button.onClick.AddListener(() => Game.instance.ExecuteSkill(skill));
     }

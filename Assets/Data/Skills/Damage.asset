@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Damage
   m_EditorClassIdentifier: 
   skillType: 0
+  sprite: {fileID: 1930435153, guid: 679f4f8fe526132429caf05d15ecee12, type: 3}
   manaCost: 1
   description: Deal 100 damage to all monsters.
