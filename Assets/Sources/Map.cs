@@ -22,7 +22,6 @@ public class Map : MonoBehaviour
             pathPoints[i] = pathTilemap.transform.GetChild(i);
         }
 #endif
-
         Gizmos.color = Color.yellow;
         for (int i = 0; i < pathPoints.Length-1; i++) {
             Gizmos.DrawLine(pathPoints[i].position, pathPoints[i+1].position);
@@ -53,9 +52,5 @@ public class Map : MonoBehaviour
             towerPoints.Add(towerTilemap.transform.GetChild(i));
             towerPointAvailability.Add(true);
         }
-
-        Debug.Log("tilemap.size: " + pathTilemap.size);
-        var tile = pathTilemap.GetTile(new Vector3Int(0, 0, 0));
-        // Debug.Log(tilemap.);
     }
 }

@@ -1,12 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using UnityAction = UnityEngine.Events.UnityAction;
 using TMPro;
 using Pixelplacement;
 
