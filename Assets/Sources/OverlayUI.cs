@@ -14,6 +14,7 @@ public class OverlayUI : MonoBehaviour
 {
     public static OverlayUI instance;
 
+    public List<SkillButton> skillButtons;
     public Button placeTowerButton;
     public Button saveButton;
     public Button loadSaveButton;
@@ -28,8 +29,24 @@ public class OverlayUI : MonoBehaviour
     public TMP_Text resultsTimeText;
     public TMP_Text resultsWaveText;
     public TMP_Text resultsKillCountText;
+    public TMP_Text skillDescriptionText;
+    public CanvasGroup skillDescriptionCanvasGroup;
     public CanvasGroup bgShadowCanvasGroup;
     public RectTransform endGameWindow;
+
+    public void ShowSkillDescription(SkillButton skillButton)
+    {
+        skillDescriptionText.text = skillButton.description;
+        skillDescriptionCanvasGroup.alpha = 1f;
+        var pos = skillDescriptionCanvasGroup.transform.position;
+        pos.x = skillButton.transform.position.x;
+        skillDescriptionCanvasGroup.transform.position = pos;
+    }
+
+    public void HideSkillDescription()
+    {
+        skillDescriptionCanvasGroup.alpha = 0f;
+    }
 
     public void OnGameEnd()
     {
@@ -60,6 +77,9 @@ public class OverlayUI : MonoBehaviour
         manaText.text = Game.instance.mana.ToString();
         placeTowerButton.interactable = Game.instance.gold >= Game.instance.towerCost &&
             Map.instance.towerPoints.Count > Game.instance.towers.Count;
+        foreach (var skillButton in skillButtons) {
+            skillButton.OnManaChanged();
+        }
     }
 
     public void OnWaveChanged()

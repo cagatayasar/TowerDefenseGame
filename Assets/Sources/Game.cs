@@ -50,21 +50,39 @@ public class Game : MonoBehaviour
         OverlayUI.instance.OnGameEnd();
     }
 
-    void PlaceTower()
+    public void ExecuteSkill(SkillButton skillButton)
+    {
+        if (skillButton.skillType == SkillButton.SkillType.Damage) {
+            var count = MonsterSpawner.instance.monsters.Count;
+            for (int i = 0; i < count; i++) {
+                var monster = MonsterSpawner.instance.monsters[i];
+                monster.ReceiveDamage(50);
+                if (monster.isDead) {
+                    i--;
+                    count--;
+                }
+            }
+        } else if (skillButton.skillType == SkillButton.SkillType.Freeze) {
+            Monster.freezeTimeMultiplier = 0f;
+            Utils.CallDelayed(() => Monster.freezeTimeMultiplier = 1f, 3f);
+        } else if (skillButton.skillType == SkillButton.SkillType.PlaceTower) {
+            PlaceTower();
+        }
+
+        mana -= skillButton.manaCost;
+        OverlayUI.instance.OnManaChanged();
+    }
+
+    bool PlaceTower()
     {
         var count = Map.instance.towerPoints.Count;
         if (count == 0)
-            return;
+            return false;
 
         var availablePointIndexes = Map.instance.towerPointAvailability
             .Select((boolValue, i) => (boolValue, i)).Where(x => x.boolValue).Select(x => x.i).ToList();
         if (availablePointIndexes.Count == 0)
-            return;
-
-        gold -= towerCost;
-        towerCost += gameAttributes.towerCostIncreaseAmount;
-        OverlayUI.instance.OnGoldChanged();
-        OverlayUI.instance.OnTowerCostChanged();
+            return false;
         
         var index = availablePointIndexes[Random.Range(0, availablePointIndexes.Count)];
         var point = Map.instance.towerPoints[index];
@@ -72,6 +90,15 @@ public class Game : MonoBehaviour
         tower.Initialize(index, Random.Range(gameAttributes.towerInitialDamageMin, gameAttributes.towerInitialDamageMax+1));
         towers.Add(tower);
         Map.instance.towerPointAvailability[index] = false;
+        return true;
+    }
+
+    void ReceiveTowerPayment()
+    {
+        gold -= towerCost;
+        towerCost += gameAttributes.towerCostIncreaseAmount;
+        OverlayUI.instance.OnGoldChanged();
+        OverlayUI.instance.OnTowerCostChanged();
     }
 
     void MergeTowers(Tower stationaryTower, Tower draggedTower)
@@ -239,7 +266,11 @@ public class Game : MonoBehaviour
 
         UnityAction loadAndInitialize = () => InitializeWithState(LoadSave());
 
-        OverlayUI.instance.placeTowerButton.onClick.AddListener(PlaceTower);
+        OverlayUI.instance.placeTowerButton.onClick.AddListener(() => {
+            if (PlaceTower()) {
+                ReceiveTowerPayment();
+            }
+        });
         OverlayUI.instance.saveButton.onClick.AddListener(SaveGame);
         OverlayUI.instance.loadSaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         OverlayUI.instance.deleteSaveButton.onClick.AddListener(DeleteSave);
@@ -249,6 +280,7 @@ public class Game : MonoBehaviour
         loadAndInitialize();
 
         OverlayUI.instance.OnGoldChanged();
+        OverlayUI.instance.OnManaChanged();
         OverlayUI.instance.OnKillCountChanged();
         OverlayUI.instance.OnTowerCostChanged();
     }

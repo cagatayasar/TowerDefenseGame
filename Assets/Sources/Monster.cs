@@ -14,6 +14,8 @@ public class Monster : MonoBehaviour
         Boss
     }
 
+    public static float freezeTimeMultiplier = 1f;
+
     public Monster.Type monsterType;
     public int maxHealth;
     public int goldDrop;
@@ -91,7 +93,7 @@ public class Monster : MonoBehaviour
         if (nextPathPoint == null) return;
         if (Game.instance.isPaused) return;
 
-        travelledDistance += speed * Time.deltaTime;
+        travelledDistance += speed * Time.deltaTime * freezeTimeMultiplier;
         if (travelledDistance < distance) {
             transform.position = Vector3.Lerp(lastPathPoint.position, nextPathPoint.position, travelledDistance / distance);
         } else {

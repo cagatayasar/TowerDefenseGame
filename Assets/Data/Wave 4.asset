@@ -16,9 +16,9 @@ MonoBehaviour:
   - monsterType: 0
     count: 200
   - monsterType: 1
-    count: 100
+    count: 75
   - monsterType: 2
-    count: 100
+    count: 75
   - monsterType: 3
     count: 1
   spawnTimePeriodStart: 0.25
