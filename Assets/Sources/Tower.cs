@@ -87,8 +87,10 @@ public class Tower : MonoBehaviour
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        var monster = monstersInRange.Find(m => m.gameObject == other.gameObject);
-        monstersInRange.Remove(monster);
+        var monster = monstersInRange.FirstOrDefault(m => m.gameObject == other.gameObject);
+        if (monster != null) {
+            monstersInRange.Remove(monster);
+        }
         if (targetMonster == monster) {
             targetMonster = null;
         }

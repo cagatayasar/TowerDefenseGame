@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -12, y: 0}
-  m_SizeDelta: {x: 48, y: 12}
+  m_AnchoredPosition: {x: -11, y: 0}
+  m_SizeDelta: {x: 44, y: 12}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &6728809220170118844
 CanvasRenderer:
@@ -127,7 +127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 24, y: 0}
+  m_AnchoredPosition: {x: 22, y: 0}
   m_SizeDelta: {x: 46, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4823714549680521413
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 5620139630504110197}
   - component: {fileID: 286265840242653002}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -481,9 +481,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8500850300145416772}
   - component: {fileID: 6883292360056319837}
-  - component: {fileID: 4663217615146667104}
+  - component: {fileID: 1677345763228193948}
   m_Layer: 7
-  m_Name: Monster
+  m_Name: Monster Basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -519,15 +519,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  goldDrop: 10
   speed: 1.4
+  minPathOffset: 0
+  maxPathOffset: 0.5
   bodyRenderer: {fileID: 7639477451733588037}
   healthBarCanvasGroup: {fileID: 3262196828817923906}
   healthBarRedMask: {fileID: 1194335635588526905}
   travelledDistance: 0
   pathPointIndex: 0
   isDead: 0
---- !u!58 &4663217615146667104
-CircleCollider2D:
+--- !u!61 &1677345763228193948
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -540,5 +543,15 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.22
+  m_Size: {x: 0.3, y: 0.45}
+  m_EdgeRadius: 0

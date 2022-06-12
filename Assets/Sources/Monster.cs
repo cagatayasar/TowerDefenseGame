@@ -7,7 +7,16 @@ using Pixelplacement;
 
 public class Monster : MonoBehaviour
 {
+    public enum Type {
+        Basic,
+        Big,
+        Fast,
+        Boss
+    }
+
+    public Monster.Type monsterType;
     public int maxHealth;
+    public int goldDrop;
     public float speed;
 
     public SpriteRenderer bodyRenderer;
@@ -15,7 +24,7 @@ public class Monster : MonoBehaviour
     public RectTransform healthBarRedMask;
 
     [HideInInspector] public float travelledDistance = 0f;
-    [HideInInspector] public int pathPointIndex;
+    [HideInInspector] public int pathPointIndex = 0;
     [HideInInspector] public bool isDead;
 
     Transform lastPathPoint;
@@ -28,32 +37,35 @@ public class Monster : MonoBehaviour
 
     public SerializedMonster GetSerialized()
     {
-        return new SerializedMonster(health, pathPointIndex, travelledDistance);
+        return new SerializedMonster(monsterType, health, pathPointIndex, travelledDistance);
     }
 
-    public void Initialize(int maxHealth = 100, int pathPointIndex = 0, float travelledDistance = 0f)
+    public void Initialize(SerializedMonster serializedMonster = null)
     {
-        this.maxHealth = maxHealth;
-        this.pathPointIndex = pathPointIndex;
-        this.travelledDistance = travelledDistance;
+        if (serializedMonster == null) {
+            health = maxHealth;
+        } else {
+            health = serializedMonster.health;
+            pathPointIndex = serializedMonster.pathPointIndex;
+            travelledDistance = serializedMonster.travelledDistance;
+        }
 
         lastPathPoint = Map.instance.pathPoints[pathPointIndex];
         UpdatePath();
 
-        health = maxHealth;
         healthBarRedMask.sizeDelta = new Vector2(health * healthBarRedMaskWidth / maxHealth, healthBarRedMask.sizeDelta.y); 
     }
 
     public void ReceiveDamage(int damage)
     {
-        if (health == maxHealth) {
+        if (healthBarCanvasGroup.alpha == 0f) {
             Tween.CanvasGroupAlpha(healthBarCanvasGroup, 1f, 0.2f, 0f);
         }
         health -= damage;
         healthBarRedMask.sizeDelta = new Vector2(health * healthBarRedMaskWidth / maxHealth, healthBarRedMask.sizeDelta.y); 
 
         if (health <= 0) {
-            Game.instance.RemoveMonster(this);
+            MonsterSpawner.instance.Remove(this);
             isDead = true;
             Destroy(gameObject);
         }

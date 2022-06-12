@@ -1106,7 +1106,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409469982}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1114,8 +1114,8 @@ Transform:
   - {fileID: 1996305272}
   - {fileID: 1767887017}
   - {fileID: 533725925}
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 789254703}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &427158325 stripped
 MonoBehaviour:
@@ -1323,7 +1323,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8500850300145416772, guid: 9f3a5f01e09f9d54fa878d1b73fa8567, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8500850300145416772, guid: 9f3a5f01e09f9d54fa878d1b73fa8567, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1481,7 +1481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6175212006421873949, guid: 698d14d12f671514e8dc1e22177721fb, type: 3}
       propertyPath: m_Name
-      value: Tower Button
+      value: Place Tower Button
       objectReference: {fileID: 0}
     - target: {fileID: 6175212007464262040, guid: 698d14d12f671514e8dc1e22177721fb, type: 3}
       propertyPath: m_SizeDelta.y
@@ -2292,6 +2292,64 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8500850300145416772, guid: 8f69301294d4fa74c96ceb3b8077e28a, type: 3}
   m_PrefabInstance: {fileID: 597110292}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &603693529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 603693530}
+  - component: {fileID: 603693531}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &603693530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603693529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &603693531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603693529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b467904f404ee6f4abad925d917253d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monstersParent: {fileID: 1514544219}
+  waves:
+  - {fileID: 11400000, guid: e540f9763c030bb42a2c1ffc16953d7f, type: 2}
+  - {fileID: 11400000, guid: 11786214addce72448eec1f4d37ac535, type: 2}
+  - {fileID: 11400000, guid: 04d0b6104dbff704797f50a0ecd3feb7, type: 2}
+  - {fileID: 11400000, guid: 662947f6fc018914cb9e539f9e40ae21, type: 2}
+  monsterPrefabs:
+  - {fileID: 6883292360056319837, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
+  - {fileID: 3683774399316498703, guid: 66cf537c997c0ff4db23c83d983491df, type: 3}
+  - {fileID: 3683774399316498703, guid: 87d27b146507b0d49ba7443e54d7cee4, type: 3}
+  - {fileID: 3683774399316498703, guid: 9e1b7197d20865649a538c6359e43f65, type: 3}
+  monsters: []
+  monsterSpawnPool: 
+  waveIndex: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2883,12 +2941,13 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 409469984}
   - {fileID: 1514544219}
   - {fileID: 1299811261}
   - {fileID: 1198813981}
   - {fileID: 454914632}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &789254704
 MonoBehaviour:
@@ -2965,7 +3024,6 @@ MonoBehaviour:
   - {fileID: 1149864585}
   - {fileID: 1798420391}
   towerPointAvailability: 01010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101
-  availablePointIndexes: 0
 --- !u!1001 &799388418
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3913,6 +3971,141 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1084970676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1084970677}
+  - component: {fileID: 1084970679}
+  - component: {fileID: 1084970678}
+  m_Layer: 5
+  m_Name: Wave Announcement Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1084970677
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084970676}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1702505735}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 210}
+  m_SizeDelta: {x: 280, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1084970678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084970676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 'Wave: 5'
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: b12f17251431ca24fb23320b79b6f85c, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: d703a31a2bc2de3439ab084faa0895c7, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 16777215
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 64
+  m_fontSizeBase: 64
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 0
+  m_fontSizeMax: 0
+  m_fontStyle: 1
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1084970679
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084970676}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1088355989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4128,7 +4321,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 789254703}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1202874361
 GameObject:
@@ -4344,7 +4537,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 789254703}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1302511483
 PrefabInstance:
@@ -4715,7 +4908,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1336762462
 PrefabInstance:
@@ -5057,7 +5250,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1506349598
 MonoBehaviour:
@@ -5072,28 +5265,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towersParent: {fileID: 1299811261}
-  monstersParent: {fileID: 1514544219}
   projectilesParent: {fileID: 1198813981}
-  placeTowerButton: {fileID: 457367704}
-  saveButton: {fileID: 1236759624}
-  loadSaveButton: {fileID: 1772413489}
-  deleteSaveButton: {fileID: 675862727}
-  retryButton: {fileID: 1700908403}
-  timeText: {fileID: 6175212006560314224}
-  monsterKillCountText: {fileID: 1915660447}
-  goldText: {fileID: 1910251745}
-  manaText: {fileID: 1056084340}
-  towerCostText: {fileID: 979989581}
-  resultsTimeText: {fileID: 821678636}
-  resultsWaveText: {fileID: 1841540435}
-  resultsMonsterKillCountText: {fileID: 427158325}
-  bgShadowCanvasGroup: {fileID: 378957853}
-  endGameWindow: {fileID: 1936701037}
   castle: {fileID: 546006655}
   towerPrefab: {fileID: 2049610152698564606, guid: 1527d93854b584e4abab9619ef32e8a9, type: 3}
   monsterPrefab: {fileID: 6883292360056319837, guid: 7160d681d71a6cf40a41c47834b5e96a, type: 3}
   gameAttributes: {fileID: 11400000, guid: 7b19af7d7199f824aa460bcfd9fa403a, type: 2}
+  waves:
+  - {fileID: 11400000, guid: e540f9763c030bb42a2c1ffc16953d7f, type: 2}
+  - {fileID: 11400000, guid: 11786214addce72448eec1f4d37ac535, type: 2}
+  - {fileID: 11400000, guid: 04d0b6104dbff704797f50a0ecd3feb7, type: 2}
+  - {fileID: 11400000, guid: 662947f6fc018914cb9e539f9e40ae21, type: 2}
   isPaused: 0
+  towerCost: 0
+  killCount: 0
+  gold: 0
+  mana: 0
+  towers: []
+  totalTimePassed: 0
 --- !u!1 &1514544218
 GameObject:
   m_ObjectHideFlags: 0
@@ -5123,7 +5311,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 789254703}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1534726321
 PrefabInstance:
@@ -5635,11 +5823,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1702505735}
+  - component: {fileID: 1702505736}
   - component: {fileID: 1702505734}
   - component: {fileID: 1702505733}
   - component: {fileID: 1702505732}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Overlay UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5722,15 +5911,44 @@ RectTransform:
   - {fileID: 1202874362}
   - {fileID: 356787991}
   - {fileID: 378957850}
+  - {fileID: 1084970677}
   - {fileID: 1936701037}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1702505736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702505731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cac65965c559524ba7c2fd2a53686b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placeTowerButton: {fileID: 457367704}
+  saveButton: {fileID: 1236759624}
+  loadSaveButton: {fileID: 1772413489}
+  deleteSaveButton: {fileID: 675862727}
+  retryButton: {fileID: 1700908403}
+  waveAnnouncementText: {fileID: 1084970678}
+  waveText: {fileID: 6175212006560314224}
+  killCountText: {fileID: 1915660447}
+  goldText: {fileID: 1910251745}
+  manaText: {fileID: 1056084340}
+  towerCostText: {fileID: 979989581}
+  resultsTimeText: {fileID: 821678636}
+  resultsWaveText: {fileID: 1841540435}
+  resultsKillCountText: {fileID: 427158325}
+  bgShadowCanvasGroup: {fileID: 378957853}
+  endGameWindow: {fileID: 1936701037}
 --- !u!1001 &1706014790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6549,7 +6767,7 @@ RectTransform:
   - {fileID: 767568523}
   - {fileID: 490198272}
   m_Father: {fileID: 1702505735}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

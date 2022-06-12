@@ -17,62 +17,37 @@ public class Game : MonoBehaviour
     public static Game instance;
 
     public Transform towersParent;
-    public Transform monstersParent;
     public Transform projectilesParent;
-    public Button placeTowerButton;
-    public Button saveButton;
-    public Button loadSaveButton;
-    public Button deleteSaveButton;
-    public Button retryButton;
-    public TMP_Text timeText;
-    public TMP_Text monsterKillCountText;
-    public TMP_Text goldText;
-    public TMP_Text manaText;
-    public TMP_Text towerCostText;
-    public TMP_Text resultsTimeText;
-    public TMP_Text resultsWaveText;
-    public TMP_Text resultsMonsterKillCountText;
-    public CanvasGroup bgShadowCanvasGroup;
-    public RectTransform endGameWindow;
     public Castle castle;
     public Tower towerPrefab;
     public Monster monsterPrefab;
     public GameAttributes gameAttributes;
+    public List<Wave> waves;
 
     [HideInInspector] public bool isPaused;
+    [HideInInspector] public int towerCost;
+    [HideInInspector] public int killCount;
+    [HideInInspector] public int gold;
+    [HideInInspector] public int mana;
+    [HideInInspector] public List<Tower> towers = new List<Tower>();
+    [HideInInspector] public float totalTimePassed;
 
-    List<Monster> monsters = new List<Monster>();
-    List<Tower> towers = new List<Tower>();
     Tower draggedTower;
-    float monsterSpawnTimer = 0f;
-    float totalTimePassed = 0f;
-    int towerCost;
-    int monsterKillCount;
-    int gold;
-    int mana;
 
-    public void RemoveMonster(Monster monster)
+    public void OnMonsterRemoved(int goldDrop)
     {
-        monsterKillCount++;
-        monsterKillCountText.text = monsterKillCount.ToString();
+        killCount++;
+        OverlayUI.instance.OnKillCountChanged();
 
-        gold += gameAttributes.monsterGoldDrop;
-        goldText.text = gold.ToString();
-        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
-
-        monsters.Remove(monster);
+        gold += goldDrop;
+        OverlayUI.instance.OnGoldChanged();
     }
 
     public void EndGame()
     {
+        MonsterSpawner.instance.StopAllCoroutines();
         isPaused = true;
-        resultsTimeText.text = timeText.text;
-        resultsWaveText.text = "Wave : 0/7";
-        resultsMonsterKillCountText.text = monsterKillCountText.text;
-
-        bgShadowCanvasGroup.blocksRaycasts = true;
-        Tween.CanvasGroupAlpha(bgShadowCanvasGroup, 0.4f, 0.7f, 0f, Tween.EaseOut);
-        Tween.AnchoredPosition(endGameWindow, Vector2.zero, 0.7f, 0.2f, Tween.EaseOut);
+        OverlayUI.instance.OnGameEnd();
     }
 
     void PlaceTower()
@@ -87,10 +62,9 @@ public class Game : MonoBehaviour
             return;
 
         gold -= towerCost;
-        goldText.text = gold.ToString();
         towerCost += gameAttributes.towerCostIncreaseAmount;
-        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
-        towerCostText.text = towerCost.ToString();
+        OverlayUI.instance.OnGoldChanged();
+        OverlayUI.instance.OnTowerCostChanged();
         
         var index = availablePointIndexes[Random.Range(0, availablePointIndexes.Count)];
         var point = Map.instance.towerPoints[index];
@@ -110,7 +84,7 @@ public class Game : MonoBehaviour
         stationaryTower.damageText.text = stationaryTower.damage.ToString();
         if (stationaryTower.damage == gameAttributes.towerMergedDamageMax) {
             mana += 1;
-            manaText.text = mana.ToString();
+            OverlayUI.instance.OnManaChanged();
             stationaryTower.gunRenderer.enabled = false;
             stationaryTower.gunUpgradedRenderer.enabled = true;
         }
@@ -119,19 +93,20 @@ public class Game : MonoBehaviour
         towers.Remove(draggedTower);
         Destroy(draggedTower.gameObject);
 
-        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
+        OverlayUI.instance.OnTowerCountChanged();
     }
 
     void InitializeWithState(GameState gameState)
     {
-        if (gameState == null)
+        if (gameState == null) {
+            MonsterSpawner.instance.StartWaveSpawner();
             return;
+        }
 
         foreach (var sm in gameState.serializedMonsters) {
-            var monster = Instantiate(monsterPrefab, Vector3.zero, Quaternion.identity, monstersParent);
-            monster.Initialize(sm.health, sm.pathPointIndex, sm.travelledDistance);
-            monsters.Add(monster);
+            MonsterSpawner.instance.Spawn(sm.monsterType, Vector3.zero, sm);
         }
+        MonsterSpawner.instance.StartWaveSpawnerWithState(gameState.waveIndex, gameState.spawnerMonsterPool);
         foreach (var st in gameState.serializedTowers) {
             var point = Map.instance.towerPoints[st.towerPointIndex];
             var tower = Instantiate(towerPrefab, point.transform.position, Quaternion.identity, towersParent);
@@ -142,21 +117,22 @@ public class Game : MonoBehaviour
         totalTimePassed = gameState.timePassed;
         gold = gameState.gold;
         mana = gameState.mana;
-        monsterKillCount = gameState.monsterKillCount;
+        killCount = gameState.killCount;
         towerCost = gameState.towerCost;
         castle.health = gameState.castleHealth;
     }
 
     void SaveGame()
     {
-        var gameState = new GameState(monsters, towers, totalTimePassed, gold, mana, monsterKillCount, towerCost, castle.health);
+        var gameState = new GameState(MonsterSpawner.instance.monsters, towers, MonsterSpawner.instance.monsterPool,
+            MonsterSpawner.instance.waveIndex, totalTimePassed, gold, mana, killCount, towerCost, castle.health);
         var bf = new BinaryFormatter();
         var path = Application.persistentDataPath + saveFileName;
         var stream = new FileStream(path, FileMode.Create);
 
         bf.Serialize(stream, gameState);
         stream.Close();
-        deleteSaveButton.interactable = true;
+        OverlayUI.instance.OnSaveStateChanged(true);
     }
 
     GameState LoadSave()
@@ -181,21 +157,14 @@ public class Game : MonoBehaviour
         if (File.Exists(path)) {
             File.Delete(path);
         }
-        deleteSaveButton.interactable = false;
+        OverlayUI.instance.OnSaveStateChanged(false);
     }
 
     void Update()
     {
         if (isPaused) return;
 
-        monsterSpawnTimer += Time.deltaTime;
         totalTimePassed += Time.deltaTime;
-        if (monsterSpawnTimer > 2 / (1f + totalTimePassed * 0.03f)) {
-            monsterSpawnTimer = 0f;
-            var monster = Instantiate(monsterPrefab, Map.instance.pathPoints[0].position, Quaternion.identity, monstersParent);
-            monster.Initialize();
-            monsters.Add(monster);
-        }
 
         if (draggedTower == null) {
             if (Input.GetMouseButtonDown(0)) {
@@ -227,10 +196,7 @@ public class Game : MonoBehaviour
             }
         }
 
-        var minutes = (int)(totalTimePassed / 60f);
-        var seconds = (int)(totalTimePassed % 60f);
-        timeText.text = (minutes < 10 ? "0" : "") + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-
+#if UNITY_EDITOR
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.UpArrow)) {
             if (Time.timeScale * 2.0f < 100.0f) {
                 Time.timeScale *= 2.0f;
@@ -251,6 +217,7 @@ public class Game : MonoBehaviour
         if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.R)) {
             Time.timeScale = 1.0f;
         }
+#endif
     }
 
     void Awake()
@@ -272,19 +239,17 @@ public class Game : MonoBehaviour
 
         UnityAction loadAndInitialize = () => InitializeWithState(LoadSave());
 
-        placeTowerButton.onClick.AddListener(PlaceTower);
-        saveButton.onClick.AddListener(SaveGame);
-        loadSaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
-        deleteSaveButton.onClick.AddListener(DeleteSave);
-        retryButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
-        deleteSaveButton.interactable = File.Exists(Application.persistentDataPath + saveFileName);
+        OverlayUI.instance.placeTowerButton.onClick.AddListener(PlaceTower);
+        OverlayUI.instance.saveButton.onClick.AddListener(SaveGame);
+        OverlayUI.instance.loadSaveButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        OverlayUI.instance.deleteSaveButton.onClick.AddListener(DeleteSave);
+        OverlayUI.instance.retryButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        OverlayUI.instance.OnSaveStateChanged(File.Exists(Application.persistentDataPath + saveFileName));
 
         loadAndInitialize();
 
-        placeTowerButton.interactable = gold >= towerCost && Map.instance.towerPoints.Count > towers.Count;
-        monsterKillCountText.text = monsterKillCount.ToString();
-        goldText.text = gold.ToString();
-        manaText.text = mana.ToString();
-        towerCostText.text = towerCost.ToString();
+        OverlayUI.instance.OnGoldChanged();
+        OverlayUI.instance.OnKillCountChanged();
+        OverlayUI.instance.OnTowerCostChanged();
     }
 }

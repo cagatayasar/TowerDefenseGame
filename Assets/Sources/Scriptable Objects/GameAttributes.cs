@@ -13,6 +13,7 @@ public class GameAttributes : ScriptableObject
     public int towerInitialDamageMin;
     public int towerInitialDamageMax;
     public int towerMergedDamageMax;
-    public int monsterGoldDrop;
     public int castleHealth;
+    public float waitLengthStart;
+    public float waitLengthBetweenWaves;
 }
