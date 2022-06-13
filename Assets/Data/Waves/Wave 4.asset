@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterGroups:
   - monsterType: 0
-    count: 2
+    count: 200
   - monsterType: 1
-    count: 7
+    count: 75
   - monsterType: 2
-    count: 7
+    count: 75
   - monsterType: 3
     count: 1
   spawnTimePeriodStart: 0.22

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterGroups:
   - monsterType: 0
-    count: 10
+    count: 100
   - monsterType: 1
     count: 0
   - monsterType: 2
